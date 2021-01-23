@@ -1,10 +1,10 @@
 const licores = [
     {
     "id": "Cer001",
-    "name": "Cerveza Crital",
+    "name": "Cerveza Cristal",
     "description": "Pack 6 un. 355 cc. c/u",
     "price": 2700,
-    "image":"CervezaCristal.jpg",
+    "image":"img/CervezaCristal.jpg",
     "amount":0,
     "avaliable":true
 },{
@@ -12,7 +12,7 @@ const licores = [
     "name": "Cerveza Escudo",
     "description": "Pack 6 un. 470 cc. c/u",
     "price": 3200,
-    "image":"CervezaEscudo.jpg",
+    "image":"img/CervezaEscudo.jpg",
     "amount":0,
     "avaliable":true
 },{
@@ -20,7 +20,7 @@ const licores = [
     "name": "Cerveza Royal",
     "description": "Pack 6 un. 355 cc. c/u",
     "price": 4000,
-    "image":"CervezaRoyal.jpg",
+    "image":"img/CervezaRoyal.jpg",
     "amount":0,
     "avaliable":true
 },{
@@ -28,7 +28,7 @@ const licores = [
     "name": "Ron Barcelo",
     "description": "Ron añejo Barceló 750ml.",
     "price": 8750,
-    "image":"ron-barcelo.jpg",
+    "image":"img/ron-barcelo.jpg",
     "amount":0,
     "avaliable":true
 },{
@@ -44,7 +44,7 @@ const licores = [
     "name": "Ron Bacardi",
     "description": "Razz, 35°, 750 cc.",
     "price": 8500,
-    "image":"Ron-Bacardi",
+    "image":"img/Ron-Bacardi.png",
     "amount":0,
     "avaliable":true
  },{
@@ -52,15 +52,15 @@ const licores = [
     "name": "Whisky Chivas Regals",
     "description": "Whisky 12 años botella 40° 750cc.",
     "price": 32500,
-    "image":"Wiski-ChivasRegals.jpg",
+    "image":"img/Wisky-ChivasRegals.jpg",
     "amount":0,
     "avaliable":true
 },{
    "id": "wis002",
-   "name": "JacksDaniels",
-   "description": "Whisky JacksDaniels 40° 375 cc.",
+   "name": "JhoniWakers",
+   "description": "Whisky Johnnie Walker 750 cc 40° Red Label",
    "price": 21230,
-   "image":"Wisky-JacksDaniels.jpeg",
+   "image":"img/Wisky-JhoniWakers.jpg",
    "amount":0,
    "avaliable":true
 },{
@@ -68,7 +68,7 @@ const licores = [
    "name": "JacksDaniels",
    "description": "Whisky etiqueta negra 40° 750 cc.",
    "price": 32500,
-   "image":"Wisky-JhoniWakers.jpeg",
+   "image":"img/Wisky-JacksDaniels.jpg",
    "amount":0,
    "avaliable":true
 },{
@@ -76,7 +76,7 @@ const licores = [
     "name": "Skyy",
     "description": "Vodka Skyy 750 cc. raspberry infusión",
     "price": 9390,
-    "image":"Wisky-JhoniWakers.jpeg",
+    "image":"img/Vodka-Skyy.jpg",
     "amount":0,
     "avaliable":true  
 },{
@@ -92,7 +92,7 @@ const licores = [
     "name": "Absolut",
     "description": "Vodka Absolut Kurant  750 cc.",
     "price": 10990,
-    "image":"Vodka-Eristof.jpg",
+    "image":"img/Vodka-Absolut.jpg",
     "amount":0,
     "avaliable":true  
 },{
@@ -100,7 +100,7 @@ const licores = [
     "name": "Mistral",
     "description": "Pisco Mistral 46° 750 cc.",
     "price": 8390,
-    "image":"Pisco-Mistral.jpg",
+    "image":"img/Pisco-Mistral.jpg",
     "amount":0,
     "avaliable":true  
 },{
@@ -108,31 +108,48 @@ const licores = [
     "name": "Tresr Erres",
     "description": "Pisco Tres Erres 40° 700 cc.",
     "price": 8250,
-    "image":"Pisco-TresErres.jpeg",
+    "image":"img/Pisco-TresErres.jpg",
     "amount":0,
     "avaliable":true  
 
 },{
     "id": "pis003",
-    "name": "Absolut",
-    "description": "Vodka Absolut Kurant 750 cc.",
+    "name": "Alto del Carmen",
+    "description": "Pisco 35° 750 cc",
     "price": 10990,
-    "image":"Vodka-Absolut.jpeg",
-    "amount":0,
+    "image":"img/Pisco-AltodelCarmen.jpg",
+    "amount":12990,
     "avaliable":true
 }]
-MaquetarProductos(licores)
+
 const contenedorProductos= document.querySelector('#contenedor-productos')
+MaquetarProductos(licores);
+BotonSeleccionado(licores);
 
-const MaquetarProductos = function (licores) {
+//MAQUETAR HTML CON TEMPLATE, FRAGMENT Y JSOM
+function MaquetarProductos(licores) {
     const template = document.querySelector('#template-productos').content
-    const fragment = document.createDocumentFragment()
+    let fragment = document.createDocumentFragment()
     licores.forEach(producto => {
-        console.log(producto)
-        template.querySelector('img').setAttribute('src', producto.image)
-
+        //console.log(producto)
+        template.querySelector('img').setAttribute('src', producto.image);
+        template.querySelector('h5').textContent = producto.name;
+        template.querySelector('p').textContent = producto.description;
+        template.querySelector('p span').textContent = producto.price;
+        template.querySelector('button').dataset.id = producto.id;
         const clone = template.cloneNode(true)
         fragment.appendChild(clone)
+        
     })
     contenedorProductos.appendChild(fragment)
 }
+
+//DETECTAR ARTICULO SELECCIONADO AL REALIZAR CLICK EN ALGUN BOTON
+function BotonSeleccionado(licores) {
+    const TodosLosBotones = document.querySelectorAll('.card button')
+    TodosLosBotones.forEach(btn => {
+        btn.addEventListener('click', () => {
+           console.log(btn.dataset.id)
+        })
+    })
+}   
