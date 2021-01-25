@@ -10,13 +10,37 @@
     <div class="container">
        <h1 class="text-center">Carrito</h1>
        <hr>
+
+        <div class="my-5">
+            <h4>Carrito de Compras</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Detalle Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">+/-</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="items"></tbody>
+                <tfoot>
+                    <tr id="footer-carrito">
+                        <th scope="row" colspan=5">Carrito sin Productos</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
        <div class="row" id="contenedor-productos">
            
        </div>
     </div>
+
+    
     <template id=template-productos>
-        <div class="col-12 col-md-4 mb-3">
-            <div class="card">
+        <div class="col-12 col-md-2 mb-4">
+            <div class="card"> 
                 <img src="" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
@@ -27,6 +51,31 @@
             </div>
         </div>
     </template>
+
+    
+    <template id="template-carrito">
+        <tr>
+            <th scope="row">id</th>
+            <td>descripcion</td>
+            <td>cantidad</td>
+            <td>
+                <buttom class="btn btn-info btn-sm">+</buttom>
+                <buttom class="btn btn-danger btn-sm">-</buttom>
+            </td>
+            <td>$<span>precio</span></td>
+        </tr>
+   </template>
+   
+    <template id="template-footer">
+        <th scope="row" colspan="2">Total:</th>
+        <td>10</td>
+        <td>
+            <button class="btn btn-danger btn-sm" id="vaciar-carrito">vaciar todo</button>
+        </td>
+        <td class="font-weight-bold">$ <span>5000<</span></td>
+    </template>
+
     <script src="./js/carritocompras.js"></script>
 </body>
 </html>
+
