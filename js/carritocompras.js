@@ -18,7 +18,7 @@ const licores = [
 },{
     "id": "CER003",
     "name": "Royal",
-    "description": "Cerveza Royal Pack 6 un. 355 cc. c/u",
+    "description": "Cerveza Royal Pack 6 un. 355cc.",
     "price": 4000,
     "image":"img/CervezaRoyal.jpg",
     "amount":0,
@@ -145,7 +145,7 @@ function MaquetarProductos(licores) {
 }
 
 // OOBETO DONDE QUEDARAN EL DETALLE DE LOS PRODUCTOS SELECCIONADOS.
- let CarritoCompra = {}
+ let CarritoCompras = {}
 
 //DETECTAR ARTICULO SELECCIONADO AL REALIZAR CLICK EN ALGUN BOTON
 function BotonSeleccionado(licores) {
@@ -157,33 +157,96 @@ function BotonSeleccionado(licores) {
            //AGREGAR CAMPO CANTIDAD A XPRODUCTO
            xproducto.cantidad = 1;
            //VERIFICAR SI EL PRODUCTO SELECCIONADO YA EXISTE EN CARRITO
-           if (CarritoCompra.hasOwnProperty(xproducto.id)){
+           if (CarritoCompras.hasOwnProperty(xproducto.id)){
                // SI EXISTE EN CARRITO AUMENTAR CANTIDAD EN 1 
-               xproducto.cantidad=  CarritoCompra[xproducto.id].cantidad + 1;
+               xproducto.cantidad=  CarritoCompras[xproducto.id].cantidad + 1;
             }
            //REEMPLAZAR REGISTRO DEL PRODUCTO SELECCIONADO EN CARRITO DE COMPRAS CON XPRODUCTO
-           CarritoCompra[xproducto.id] = { ...xproducto};
+           CarritoCompras[xproducto.id] = { ...xproducto};
           
            MostrarDatosCarrito();
         })
     })
 }   
+const items =document.querySelector('#items')
 
 function MostrarDatosCarrito(){
-    items.innerHTML=''
+    items.innerHTML =''
     const template = document.querySelector('#template-carrito').content
     const fragment = document.createDocumentFragment()
 
-    Object.values(CarritoCompra).forEach(producto => {
-        template.querySelector('th').textContent = producto.id
-        template.querySelectorAll('td')[0].textContent = producto.description
-        template.querySelectorAll('td')[1].textContent = producto.cantidad
-        template.querySelector('span').textContent = producto.price * producto.cantidad
-        const clone = template.cloneNode(true)
-        fragment.appendChild(clone)
+    Object.values(CarritoCompras).forEach(producto => {
+        template.querySelector('th').textContent = producto.id;
+        template.querySelectorAll('td')[0].textContent = producto.description;
+        template.querySelectorAll('td')[1].textContent = producto.cantidad;
+        template.querySelectorAll('td')[2].textContent = number_format(producto.price,0);
+        template.querySelector('span').textContent = number_format(producto.price * producto.cantidad);
+        template.querySelector('.btn-info').dataset.id = producto.id;
+        template.querySelector('.btn-danger').dataset.id = producto.id;
+        const clone = template.cloneNode(true);
+        fragment.appendChild(clone);
     })
-items.appendChild(fragment)
+items.appendChild(fragment);
+MostrarFooterCarrito();
+AumentarDisminuir();
 }
+
+const footer= document.querySelector('#footer-carrito')
+function MostrarFooterCarrito(){
+    footer.innerHTML= '';
+    if (Object.values(CarritoCompras).length === 0){
+        footer.innerHTML = '<th scope="row" colspan=5">Carrito sin Productos</th>';
+        return
+    }
+    const template=document.querySelector('#template-footer').content;
+    const fragment=document.createDocumentFragment();
+
+    //Sumar Totales por Producto
+    const xtotal=Object.values(CarritoCompras).reduce((xsuma,{cantidad,price}) => xsuma+(cantidad * price),0);
+    template.querySelector('span').textContent = number_format(xtotal,0);
+    const clone = template.cloneNode(true);
+    fragment.appendChild(clone);
+    footer.appendChild(fragment);
+    const boton= document.querySelector('#vaciar-carrito')
+    boton.addEventListener('click', () => {
+            CarritoCompras = {};
+            MostrarDatosCarrito();
+    })
+    
+}
+
+
+function AumentarDisminuir(){
+    const BotonAumentar= document.querySelectorAll('#items .btn-info');
+    const BotonDisminuir = document.querySelectorAll('#items .btn-danger');
+    BotonAumentar.forEach(btn => {
+        btn.addEventListener('click', () =>{
+            const xproducto = CarritoCompras[btn.dataset.id];
+            xproducto.cantidad ++;
+            CarritoCompras[btn.dataset.id] = { ...xproducto};
+            MostrarDatosCarrito();
+        })
+    })
+
+    BotonDisminuir.forEach(btn => {
+        btn.addEventListener('click', () =>{
+            const xproducto = CarritoCompras[btn.dataset.id];
+            xproducto.cantidad --; 
+            if (xproducto.cantidad === 0){
+                delete CarritoCompras[btn.dataset.id];
+            }else{
+                CarritoCompras[btn.dataset.id] = { ...xproducto};
+            }
+            MostrarDatosCarrito();
+        })
+    })
+
+    
+}
+
+
+
+
 
 function number_format(amount, decimals) {
 
