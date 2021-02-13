@@ -1,8 +1,7 @@
 
 $( document ).ready(function() {
    $('#carritocompras').on('click', function() {
-       console.log('holaaa');
-       $('#carritocompras').fadeOut(1000);
+        $('#carritocompras').fadeOut(1000);
    });
 });
 

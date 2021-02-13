@@ -1,5 +1,16 @@
 console.log ('Estás ejecutando la versión de jQuery:' + $ .fn.jquery)
+$.ajax({
+    url: "../json/api.json",
+    type: "GET",
+    datatype: "json",
+    success: function(respuesta){
+       jsonLicores = respuesta
 
+    },
+    error: function(){
+        console.log("No se podido obtener la informacion")
+    }
+})
 $( document ).ready(function() {
         MaquetarProductos(jsonLicores);
         ObtenerDatosLocalStorage();
@@ -29,7 +40,7 @@ function MaquetarProductos(arrayElementos) {
 
 //Detectar Producto Seleccionado al realizar Click en algun boton
 function BotonSeleccionado(jsonLicores) {
-    const TodosLosBotones = document.querySelectorAll('.card button');
+    const TodosLosBotones = document.querySelectorAll('.btn-danger');
     TodosLosBotones.forEach(btn => {
         btn.addEventListener('click', () => {
            const xencontrado = jsonLicores.find(item => item.id == btn.dataset.id); //Extraer los Datos del Producto Seleccionado, si existe en BD Jason
@@ -62,9 +73,9 @@ function MostrarDatosCarrito(){
         const clone = template.cloneNode(true);
         fragment.appendChild(clone);
     })
-items.appendChild(fragment);
-MostrarFooterCarrito();
-AumentarDisminuir(CarritoCompras);
+    items.appendChild(fragment);
+    MostrarFooterCarrito();
+    AumentarDisminuir(CarritoCompras);
 }
 
 const footer= document.querySelector('#footer-carrito')
