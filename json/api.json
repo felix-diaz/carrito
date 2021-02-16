@@ -26,7 +26,7 @@
 },{
     "id": "CER004",
     "name": "Heineken",
-    "description": "Heineken Pack 6 un. 350cc.",
+    "description": "Cerveza Heineken Pack 6 un. 350cc.",
     "price": 5590,
     "image":"img/CervezaHeineken.jpg",
     "amount":0,
@@ -42,7 +42,7 @@
 },{
     "id": "RON002",
     "name": "Abuelo",
-    "description": "Ron Añejado 1Lt.",
+    "description": "Ron Añejado Abuelo 1Lt.",
     "price": 8990,
     "image":"img/Ron-Abuelo.jpg",
     "amount":0,
@@ -58,7 +58,7 @@
  },{
     "id": "WIS001",
     "name": "Chivas Regals",
-    "description": "Whisky 12 años 40° 750cc.",
+    "description": "Whisky Chivas Regals 12 años 40° 750cc.",
     "price": 32500,
     "image":"img/Wisky-ChivasRegals.jpg",
     "amount":0,
@@ -82,7 +82,7 @@
  },{
    "id": "WIS004",
    "name": "JacksDaniels",
-   "description": "Whisky etiqueta negra 40° 750 cc.",
+   "description": "Whisky etiqueta negra JacksDaniels 40° 750 cc.",
    "price": 32500,
    "image":"img/Wisky-JacksDaniels.jpg",
    "amount":0,

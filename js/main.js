@@ -1,14 +1,17 @@
 console.log ('Estás ejecutando la versión de jQuery:' + $ .fn.jquery)
+let jsonLicores = {}
 $.ajax({
-    url: "../json/api.json",
+    url: "json/api.json",
     type: "GET",
     datatype: "json",
     success: function(respuesta){
        jsonLicores = respuesta
+       console.log("Acceso A JSON Listo")
+       console.log(jsonLicores)
 
     },
     error: function(){
-        console.log("No se podido obtener la informacion")
+        console.log("No se ha podido obtener la informacion")
     }
 })
 $( document ).ready(function() {
@@ -63,13 +66,14 @@ function MostrarDatosCarrito(){
     const fragment = document.createDocumentFragment()
 
     Object.values(CarritoCompras).forEach(producto => {
-        template.querySelector('th').textContent = producto.id;
+        template.querySelector('img').setAttribute('src', producto.image);
         template.querySelectorAll('td')[0].textContent = producto.description;
         template.querySelectorAll('td')[1].textContent = producto.cantidad;
-        template.querySelectorAll('td')[2].textContent = number_format(producto.price,0);
+        template.querySelectorAll('td')[2].textContent = "$" + number_format(producto.price).toString()
         template.querySelector('span').textContent = number_format(producto.price * producto.cantidad);
         template.querySelector('.btn-info').dataset.id = producto.id;
         template.querySelector('.btn-danger').dataset.id = producto.id;
+        template.querySelector('.btn-warning').dataset.id = producto.id;
         const clone = template.cloneNode(true);
         fragment.appendChild(clone);
     })
@@ -106,6 +110,7 @@ function MostrarFooterCarrito(){
 function AumentarDisminuir(CarritoCompras){
     const BotonAumentar= document.querySelectorAll('#items .btn-info');
     const BotonDisminuir = document.querySelectorAll('#items .btn-danger');
+    const BotonEliminar = document.querySelectorAll('#items .btn-warning');
     BotonAumentar.forEach(btn => {
         btn.addEventListener('click', () =>{
             const xproducto = CarritoCompras[btn.dataset.id];
@@ -127,6 +132,17 @@ function AumentarDisminuir(CarritoCompras){
             }
             localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
             MostrarDatosCarrito();
+        })
+    }) 
+
+    BotonEliminar.forEach(btn => {
+        btn.addEventListener('click', () =>{
+            const xproducto = CarritoCompras[btn.dataset.id];
+            if (CarritoCompras.hasOwnProperty(xproducto.id)){
+                delete CarritoCompras[btn.dataset.id];
+            }
+            localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
+             MostrarDatosCarrito();
         })
     }) 
 }
