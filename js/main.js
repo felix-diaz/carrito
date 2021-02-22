@@ -1,5 +1,5 @@
-console.log ('Estás ejecutando la versión de jQuery:' + $ .fn.jquery)
-let jsonLicores = {}
+console.log ('Estás ejecutando la versión de jQuery:' + $ .fn.jquery);
+let jsonLicores = {};
 $.ajax({
     url: "json/api.json",
     type: "GET",
@@ -52,7 +52,7 @@ function BotonSeleccionado(jsonLicores) {
                  xencontrado.cantidad= CarritoCompras[xencontrado.id].cantidad + 1; //Si existe en carrito aumentar en 1;
            }
            CarritoCompras[xencontrado.id] = { ...xencontrado}; //Reemplazar registro producto seleccionado en carrito con xproducto
-           localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
+           localStorage.setItem("datosCarrito",JSON.stringify(CarritoCompras))
            MostrarDatosCarrito();
            
          
@@ -101,7 +101,7 @@ function MostrarFooterCarrito(){
     const boton= document.querySelector('#vaciar-carrito')
     boton.addEventListener('click', () => {
             CarritoCompras = {};
-            localStorage.removeItem("carrito")
+            localStorage.removeItem("datosCarrito")
             MostrarDatosCarrito();
     })
     
@@ -116,7 +116,7 @@ function AumentarDisminuir(CarritoCompras){
             const xproducto = CarritoCompras[btn.dataset.id];
             xproducto.cantidad ++;
             CarritoCompras[btn.dataset.id] = { ...xproducto};
-            localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
+            localStorage.setItem("datosCarrito",JSON.stringify(CarritoCompras))
             MostrarDatosCarrito();
         })
     })
@@ -130,7 +130,7 @@ function AumentarDisminuir(CarritoCompras){
             }else{
                 CarritoCompras[btn.dataset.id] = { ...xproducto};
             }
-            localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
+            localStorage.setItem("datosCarrito",JSON.stringify(CarritoCompras))
             MostrarDatosCarrito();
         })
     }) 
@@ -141,17 +141,24 @@ function AumentarDisminuir(CarritoCompras){
             if (CarritoCompras.hasOwnProperty(xproducto.id)){
                 delete CarritoCompras[btn.dataset.id];
             }
-            localStorage.setItem("carrito",JSON.stringify(CarritoCompras))
+            localStorage.setItem("datosCarrito",JSON.stringify(CarritoCompras))
              MostrarDatosCarrito();
         })
     }) 
 }
 
 function ObtenerDatosLocalStorage(){
-    if(localStorage.getItem('carrito')===null){
+    if(localStorage.getItem('datosCarrito')===null){
         CarritoCompras={};
         console.log('No existen Datos en Local Storage')
     }else{
-        CarritoCompras = JSON.parse(localStorage.getItem('carrito'));
+        CarritoCompras = JSON.parse(localStorage.getItem('datosCarrito'));
     }
+}
+
+function finalizarCompra(){
+   	alert("Gracias Por su Compra....");
+    CarritoCompras = {};
+    localStorage.removeItem("datosCarrito");
+    MostrarDatosCarrito();
 }
